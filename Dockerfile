@@ -1,9 +1,9 @@
 FROM osrf/ros:dashing-desktop
 
 ENV DEBIAN_FRONTEND noninteractive
-#ENV ROS_SECURITY_ROOT_DIRECTORY /security_keys
-#ENV ROS_SECURITY_ENABLE true
-#ENV ROS_SECURITY_STRATEGY Enforce
+ENV ROS_SECURITY_ROOT_DIRECTORY /security_keys
+ENV ROS_SECURITY_ENABLE true
+ENV ROS_SECURITY_STRATEGY Enforce
 
 COPY launch root/launch
 RUN true

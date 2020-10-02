@@ -1,0 +1,1 @@
+You need to generate your own security keys for the talker and listener nodes. You need to generate a keystone, create the security keys for the nodes, and copy the keystone in this directory.
