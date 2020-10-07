@@ -1,0 +1,11 @@
+version: "3.3"
+services:
+  talker:
+    image: demo
+    container_name: talker
+    command: bash -c "/startup-vnc.sh & ros2 launch ./root/launch/talker_launch.py"
+
+  listener:
+    image: demo
+    container_name: listener
+    command: bash -c "/startup-vnc.sh & ros2 launch ./root/launch/listener_launch.py"
