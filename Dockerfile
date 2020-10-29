@@ -1,14 +1,11 @@
 FROM osrf/ros:dashing-desktop
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV ROS_SECURITY_ROOT_DIRECTORY /security_keys
-ENV ROS_SECURITY_ENABLE false
-ENV ROS_SECURITY_STRATEGY Enforce
 
 COPY launch root/launch
-RUN true
 COPY sros /
 RUN true
+
 COPY vnc /
 RUN true
 
@@ -28,7 +25,8 @@ RUN apt-get update \
       software-properties-common \
       tmux \
       vim \
-      wget
+      wget \
+      libssl-dev
 
 # install vncserver
 RUN apt-get update \
@@ -49,3 +47,7 @@ RUN apt-get update \
 ENV TINI_VERSION v0.9.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /bin/tini
 RUN chmod +x /bin/tini
+
+RUN chmod +x /keystore_setup.sh
+RUN ./keystore_setup.sh
+
