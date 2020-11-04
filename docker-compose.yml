@@ -3,16 +3,32 @@ services:
   talker:
     image: demo
     container_name: talker
-    networks:
-      - proxynet
-    command: bash -c "/startup-vnc.sh & ros2 launch ./root/launch/talker_launch.py"
+    environment:
+      - "ROS_DOMAIN_ID=0"
+      - "ROS_SECURITY_ROOT_DIRECTORY=/security_keys"
+      - "ROS_SECURITY_ENABLE=true"
+      - "ROS_SECURITY_STRATEGY=Enforce"
+    network_mode: "host" # ensures rtps_host_id in GUID remains common
+    ipc: host # used for shared memory IPC comuncation
+    pid: host # ensures rtps_app_id in GUID remains unique
+    command: >
+      bash -c "/startup-vnc.sh &
+              ros2 launch ./root/launch/talker_launch.py"
 
   listener:
     image: demo
     container_name: listener
-    networks:
-      - proxynet
-    command: bash -c "/startup-vnc.sh & ros2 launch ./root/launch/listener_launch.py"
+    environment:
+      - "ROS_DOMAIN_ID=0"
+      - "ROS_SECURITY_ROOT_DIRECTORY=/security_keys"
+      - "ROS_SECURITY_ENABLE=true"
+      - "ROS_SECURITY_STRATEGY=Enforce"
+    network_mode: "host"
+    ipc: host
+    pid: host
+    command: >
+      bash -c "/startup-vnc.sh & 
+              ros2 launch ./root/launch/listener_launch.py"
 
   sniffer:
     image: ffeldhaus/wireshark
@@ -21,9 +37,6 @@ services:
     restart: unless-stopped
     ports:
       - "14500:14500"
-    networks:
-      - proxynet
 
-networks:
-  proxynet:
-    name: custom_network
+
+
